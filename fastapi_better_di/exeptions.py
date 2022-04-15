@@ -1,0 +1,2 @@
+class EarlyInit(LookupError):
+    pass
