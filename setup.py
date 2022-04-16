@@ -2,7 +2,7 @@ import os
 
 from setuptools import find_packages, setup
 
-VERSION = "0.1.0"
+VERSION = "0.1.1"
 
 
 def get_readme() -> str:
@@ -23,7 +23,7 @@ setup(
     long_description=get_readme(),
     long_description_content_type="text/markdown",
     version=VERSION,
-    packages=find_packages(include=["fastapi_better_di"]),
+    packages=find_packages(include=["fastapi_better_di", "fastapi_better_di.*"]),
     url="https://github.com/MaximZayats/fastapi-better-di",
     author="Maxim",
     author_email="maximzayats1@gmail.com",
