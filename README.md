@@ -43,6 +43,7 @@ app.dependency_overrides[MyType] = lambda: MyType(123)
 
 
 def register_routers():
+    # IMPORTANT
     # Importing routers after initializing main app
     from routes import api
 
@@ -58,7 +59,7 @@ register_routers()
 
 You have 2 use cases:
 
-1. Use patching:
+1. Use patching (**preferably**):
     * Auto patching: patches classes when importing:
       ```python
       from fastapi_better_di.patcher.auto import is_pathed # The classes were patched immediately after import
