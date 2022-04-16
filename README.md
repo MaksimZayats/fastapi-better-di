@@ -77,8 +77,8 @@ You have 2 use cases:
     * [Patching example](examples/patching)
 2. Use DI Classes: `FastAPIDI, APIRouterDI, APIRouteDI`
     * Use `FastAPIDI` instead of `FastAPI`
-    * Use `APIRouterDI` instead of `APIRouterDI`
-    * Use `APIRouteDI` instead of `APIRouteDI`
+    * Use `APIRouterDI` instead of `APIRouter`
+    * Use `APIRouteDI` instead of `APIRoute`
     * [DI Classes example](examples/simple)
 
 * **IMPORTANT**: The main app(`FastAPIDI`) and `dependency_overrides` must be initialized before importing routers!
