@@ -1,5 +1,8 @@
 # fastapi-better-di
 
+## What is this ?
+`fastapi-better-di` is a utility that allows you to use DI in fastapi without Depends()
+
 ## Installation
 
 ```shell
@@ -80,6 +83,10 @@ You have 2 use cases:
     * Use `APIRouterDI` instead of `APIRouter`
     * Use `APIRouteDI` instead of `APIRoute`
     * [DI Classes example](examples/simple)
+
+* **IMPORTANT**: You can still use `= Depends()` without a function as an argument
+  and it won't add unnecessary argument to the swagger.
+  * Related issue: [fastapi issue](https://github.com/tiangolo/fastapi/issues/4118)
 
 * **IMPORTANT**: The main app(`FastAPIDI`) and `dependency_overrides` must be initialized before importing routers!
 
