@@ -11,49 +11,36 @@ pip install fastapi_better_di
 
 ## Examples
 
-1.
-
-```python
-# routes.py
-from fastapi import APIRouter
-
-from custom_types import MyType
-
-api = APIRouter()
-
-
-@api.get("/")
-def handler(my_type: MyType):  # <- DI without Depends()
-    return {"my_type": my_type.value}
-```
-
 ```python
 # app.py
+import uvicorn
 from fastapi import FastAPI
 from fastapi_better_di.patcher.auto import is_pathed
-
-from custom_types import MyType
+# functions were patched immediately after import
 
 assert is_pathed(), "Something went wrong"
 
-app = FastAPI()
 
-# Register types for DI
+class MyType:
+    def __init__(self, value):
+        self.value = value
+
+
+app = FastAPI()
 app.dependency_overrides[MyType] = lambda: MyType(123)
 
 
-def register_routers():
-    # IMPORTANT
-    # Importing routers after initializing main app
-    from routes import api
-
-    app.include_router(router=api)
+@app.get("/")
+def handler(my_type: MyType):  # <- DI without `Depends()`
+    assert my_type.value == 123
+    return my_type
 
 
-register_routers()
+if __name__ == "__main__":
+    uvicorn.run(app)
 ```
 
-2. [See full examples](examples)
+[See all examples](examples)
 
 ## Usage
 
