@@ -83,7 +83,7 @@ You have 2 use cases:
     * Use `FastAPIDI` instead of `FastAPI`
     * Use `APIRouterDI` instead of `APIRouter`
     * Use `APIRouteDI` instead of `APIRoute`
-    * [DI Classes example](examples/simple)
+    * [DI Classes example](examples/types)
 
 * **IMPORTANT**: You can still use `= Depends()` without a function as an argument,
   and it won't add unnecessary arguments to the swagger.
