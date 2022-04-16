@@ -84,8 +84,8 @@ You have 2 use cases:
     * Use `APIRouteDI` instead of `APIRoute`
     * [DI Classes example](examples/simple)
 
-* **IMPORTANT**: You can still use `= Depends()` without a function as an argument
-  and it won't add unnecessary argument to the swagger.
+* **IMPORTANT**: You can still use `= Depends()` without a function as an argument,
+  and it won't add unnecessary arguments to the swagger.
   * Related issue: [fastapi issue](https://github.com/tiangolo/fastapi/issues/4118)
 
 * **IMPORTANT**: The main app(`FastAPIDI`) and `dependency_overrides` must be initialized before importing routers!
