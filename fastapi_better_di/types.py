@@ -5,7 +5,7 @@ from fastapi import APIRouter, FastAPI
 from fastapi.routing import APIRoute
 
 from fastapi_better_di.exeptions import EarlyInit
-from fastapi_better_di.patcher._utils import patch_endpoint_handler
+from fastapi_better_di.patcher._utils import patch_endpoint_handler  # NOQA
 
 _current_app: ContextVar[FastAPI] = ContextVar("_current_app")
 
@@ -32,7 +32,9 @@ class APIRouteDI(APIRoute):
         self.__init_di__(path, endpoint, *args, **kwargs)
         super().__init__(path, endpoint, *args, **kwargs)
 
-    def __init_di__(self, path: str, endpoint: Callable[..., Any], *args, **kwargs):  # NOQA
+    def __init_di__(  # NOQA
+        self, path: str, endpoint: Callable[..., Any], *args, **kwargs
+    ):
         try:
             current_app = _current_app.get()
         except LookupError:

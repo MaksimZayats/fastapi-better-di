@@ -88,7 +88,7 @@ You have 2 use cases:
   and it won't add unnecessary arguments to the swagger.
   * Related issue: [fastapi issue](https://github.com/tiangolo/fastapi/issues/4118)
 
-* **IMPORTANT**: The main app(`FastAPIDI`) and `dependency_overrides` must be initialized before importing routers!
+* **IMPORTANT**: The main app(`FastAPI`) and `dependency_overrides` must be initialized before importing routers!
 
 ## How it works
 

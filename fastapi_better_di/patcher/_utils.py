@@ -1,11 +1,13 @@
 from inspect import signature
-from typing import Callable, Dict
-from typing import Optional
+from types import FunctionType
+from typing import Callable, Dict, Optional
 
 from fastapi.params import Depends
 
 
-def patch_endpoint_handler(func: Callable, dependencies: Dict[Callable, Callable]) -> None:
+def patch_endpoint_handler(
+    func: Callable, dependencies: Dict[Callable, Callable]
+) -> None:
     sig = signature(func)
 
     for parameter in sig.parameters.values():
@@ -25,9 +27,9 @@ def patch_endpoint_handler(func: Callable, dependencies: Dict[Callable, Callable
 
 
 def decorate_method(
-        method: Callable,
-        before_call: Optional[Callable] = None,
-        after_call: Optional[Callable] = None,
+    method: Callable,
+    before_call: Optional[Callable] = None,
+    after_call: Optional[Callable] = None,
 ) -> Callable:
     def wrapper(*args, **kwargs):
         if before_call is not None:
@@ -43,3 +45,14 @@ def decorate_method(
     wrapper._IS_PATHED = True
 
     return wrapper
+
+
+def copy_func(f, name=None) -> FunctionType:
+    fn = FunctionType(
+        f.__code__, f.__globals__, name or f.__name__, f.__defaults__, f.__closure__
+    )
+
+    fn.__signature__ = signature(f)
+    fn.__dict__.update(f.__dict__)
+
+    return fn
