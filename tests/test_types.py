@@ -1,7 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
 
-from tests.shared import MY_TYPE_OBJECT, get_app
+from shared import MY_TYPE_OBJECT, get_app
 
 app = get_app(do_patching=False, use_di_types=True)
 client = TestClient(app)

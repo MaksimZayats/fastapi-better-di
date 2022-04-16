@@ -29,6 +29,9 @@ jobs:
           python -m pip install -r requirements.txt
           python -m pip install -r requirements-dev.txt
 
+      - name: Lib installation
+        run: pip install -e .
+
       - name: black
         run: black --diff .
 
