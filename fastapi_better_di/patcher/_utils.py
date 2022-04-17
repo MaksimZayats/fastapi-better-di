@@ -8,6 +8,9 @@ from fastapi.params import Depends
 def patch_endpoint_handler(
     func: Callable, dependencies: Dict[Callable, Callable]
 ) -> None:
+    if getattr(func, '_IS_PATCHED', None) is not None:
+        return
+
     sig = signature(func)
 
     for parameter in sig.parameters.values():
@@ -24,6 +27,7 @@ def patch_endpoint_handler(
                 parameter._default = Depends(dependency)  # NOQA
 
     func.__signature__ = sig
+    func._IS_PATCHED = True
 
 
 def decorate_method(

@@ -1,7 +1,7 @@
 from inspect import Signature, signature
-from typing import Callable
 
 from fastapi import FastAPI
+from fastapi.dependencies.models import Dependant
 from fastapi.dependencies.utils import get_dependant
 
 from fastapi_better_di import FastAPIDI
@@ -25,15 +25,22 @@ def patch():
     get_dependant.__original__ = copy_func(get_dependant)
     get_dependant.__code__ = get_dependant_patched.__code__
     get_dependant.__signature__ = signature(get_dependant.__original__)
+    get_dependant.__cache__ = {}
+
     get_dependant._IS_PATHED = True
 
 
-def get_dependant_patched(*args, **kwargs):
+def get_dependant_patched(*args, **kwargs) -> Dependant:
+    cache_key = hash(kwargs["call"])
+
+    if cache_key in get_dependant.__cache__:  # type: ignore
+        return get_dependant.__cache__[cache_key]  # type: ignore
+
     from fastapi_better_di.exeptions import EarlyInit
     from fastapi_better_di.patcher._utils import patch_endpoint_handler
     from fastapi_better_di.types import _current_app
 
-    get_dependant_original = get_dependant.__original__  # NOQA
+    get_dependant_original = get_dependant.__original__  # type: ignore
 
     sig: Signature = get_dependant_original.__signature__
 
@@ -48,8 +55,9 @@ def get_dependant_patched(*args, **kwargs):
     except LookupError:
         raise EarlyInit("The main app must be initialized before importing routers")
 
-    endpoint: Callable = kwargs["call"]
+    patch_endpoint_handler(kwargs["call"], current_app.dependency_overrides)
+    result = get_dependant_original(*args, **kwargs)
 
-    patch_endpoint_handler(endpoint, current_app.dependency_overrides)
+    get_dependant.__cache__[cache_key] = result  # type: ignore
 
-    return get_dependant_original(*args, **kwargs)
+    return result
