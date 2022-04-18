@@ -44,9 +44,7 @@ if __name__ == "__main__":
 
 ## Usage
 
-You have 2 use cases:
-
-1. Use patching (**preferably**):
+1. Patching:
     * Auto patching: patches classes when importing:
       ```python
       from fastapi_better_di.patcher.auto import is_pathed # The classes were patched immediately after import
@@ -65,12 +63,8 @@ You have 2 use cases:
       assert is_pathed(), "Something went wrong"
       ```
 
-    * [Patching example](examples/patching)
-2. Use DI Classes: `FastAPIDI, APIRouterDI, APIRouteDI`
-    * Use `FastAPIDI` instead of `FastAPI`
-    * Use `APIRouterDI` instead of `APIRouter`
-    * Use `APIRouteDI` instead of `APIRoute`
-    * [DI Classes example](examples/types)
+    * [Examples](examples)
+
 
 * **IMPORTANT**: You can still use `= Depends()` without a function as an argument,
   and it won't add unnecessary arguments to the swagger.
@@ -81,4 +75,3 @@ You have 2 use cases:
 ## How it works
 
 `fastapi-better-di` simply patch the handler function and add `= Depends(func)` as the default argument
-
