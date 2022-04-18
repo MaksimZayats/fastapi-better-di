@@ -8,7 +8,7 @@ from fastapi.params import Depends
 def patch_endpoint_handler(
     func: Callable, dependencies: Dict[Callable, Callable]
 ) -> None:
-    if getattr(func, '_IS_PATCHED', None) is not None:
+    if getattr(func, "_IS_PATCHED", None) is not None:
         return
 
     sig = signature(func)

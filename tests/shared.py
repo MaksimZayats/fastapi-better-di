@@ -15,25 +15,16 @@ def get_my_type() -> MyType:
     return MY_TYPE_OBJECT
 
 
-def get_app(do_patching: bool, use_di_types: bool) -> FastAPI:
+def get_app(do_patching: bool) -> FastAPI:
     if do_patching:
         from fastapi_better_di.patcher.manual import patch
 
         patch()
 
-    if use_di_types:
-        from fastapi_better_di import FastAPIDI, APIRouterDI
-
-        _FastAPI = FastAPIDI
-        _APIRouter = APIRouterDI
-    else:
-        _FastAPI = FastAPI
-        _APIRouter = APIRouter
-
-    app = _FastAPI()
+    app = FastAPI()
     app.dependency_overrides[MyType] = get_my_type
 
-    router = _APIRouter(prefix="/router")
+    router = APIRouter(prefix="/router")
 
     @app.get("/di_without_depends")
     @router.get("/di_without_depends")

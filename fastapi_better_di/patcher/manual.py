@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.dependencies.models import Dependant
 from fastapi.dependencies.utils import get_dependant
 
-from fastapi_better_di import FastAPIDI
+from fastapi_better_di._utils import current_app
 from fastapi_better_di.patcher._utils import copy_func, decorate_method
 
 
@@ -19,7 +19,7 @@ def is_pathed() -> bool:
 
 def patch():
     FastAPI.__init__ = decorate_method(
-        FastAPI.__init__, after_call=FastAPIDI.__init_di__
+        FastAPI.__init__, after_call=lambda self, *_, **__: current_app.set(self)
     )
 
     get_dependant.__original__ = copy_func(get_dependant)
@@ -38,7 +38,7 @@ def get_dependant_patched(*args, **kwargs) -> Dependant:
 
     from fastapi_better_di.exeptions import EarlyInit
     from fastapi_better_di.patcher._utils import patch_endpoint_handler
-    from fastapi_better_di.types import _current_app
+    from fastapi_better_di._utils import current_app
 
     get_dependant_original = get_dependant.__original__  # type: ignore
 
@@ -51,11 +51,11 @@ def get_dependant_patched(*args, **kwargs) -> Dependant:
     kwargs = {**default_args, **kwargs}
 
     try:
-        current_app = _current_app.get()
+        app = current_app.get()
     except LookupError:
         raise EarlyInit("The main app must be initialized before importing routers")
 
-    patch_endpoint_handler(kwargs["call"], current_app.dependency_overrides)
+    patch_endpoint_handler(kwargs["call"], app.dependency_overrides)
     result = get_dependant_original(*args, **kwargs)
 
     get_dependant.__cache__[cache_key] = result  # type: ignore

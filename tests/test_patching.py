@@ -4,7 +4,7 @@ from fastapi.testclient import TestClient
 from fastapi_better_di.patcher.manual import is_pathed
 from shared import MY_TYPE_OBJECT, get_app
 
-app = get_app(do_patching=True, use_di_types=False)
+app = get_app(do_patching=True)
 client = TestClient(app)
 
 

@@ -24,7 +24,7 @@ def get_a() -> A:
 
 
 def get_b(a: A) -> B:  # <- multi level DI without `Depends()`
-    return B(a.value ** 2)
+    return B(a.value**2)
 
 
 app = FastAPI()
