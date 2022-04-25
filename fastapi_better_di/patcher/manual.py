@@ -32,7 +32,7 @@ def patch():
 def get_dependant_patched(*args, **kwargs) -> Dependant:
     kwargs = {**get_dependant.__kwdefaults__, **kwargs}
     if getattr(kwargs["call"], "_IS_PATCHED", None) is None:
-        from fastapi_better_di.exeptions import EarlyInit
+        from fastapi_better_di.exceptions import EarlyInit
         from fastapi_better_di.patcher._utils import patch_endpoint_handler
         from fastapi_better_di._utils import current_app
 
