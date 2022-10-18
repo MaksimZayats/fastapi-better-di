@@ -2,7 +2,7 @@ import os
 
 from setuptools import find_packages, setup
 
-VERSION = "0.3.1"
+VERSION = "{{VERSION_PLACEHOLDER}}"  # will be replaced by the version number during the build process
 
 
 def get_readme() -> str:
