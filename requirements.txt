@@ -1,1 +1,1 @@
-fastapi<0.85.3
+fastapi<0.86.1
